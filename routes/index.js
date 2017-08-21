@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.post('/', async function(req, res, next) {
     let parser = new Parser(req);
     let result = await parser.start();
-    console.log(res);
+    console.log(result);
     res.json({'result': false})
     // res.render('index', { title: 'Express' });
 });

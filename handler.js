@@ -8,7 +8,12 @@ function Handler(req){
 }
 
 Handler.prototype.start = async function(){
-    return this[this.req.body.event]()
+    try{
+        return this[this.req.body.event]()
+    }catch(e){
+        console.log('error');
+        return this.sendMessage('error')
+    }
 };
 
 Handler.prototype.newMessage = async function(){
