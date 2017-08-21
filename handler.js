@@ -8,8 +8,11 @@ function Handler(req){
 }
 
 Handler.prototype.start = async function(){
+    let data = {
+        'message/new': 'newMessage'
+    }
     try{
-        return this[this.req.body.event]()
+        return this[data['this.req.body.event']]()
     }catch(e){
         console.log('error');
         this.message = this.data.content;
