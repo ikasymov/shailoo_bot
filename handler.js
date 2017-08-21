@@ -4,8 +4,12 @@ let token = process.env.token;
 
 function Handler(req){
     this.data = req.body.data;
-    this[req.body.event]()
+    this.req = req
 }
+
+Handler.prototype.start = async function(){
+    return this[this.req.body.event]()
+};
 
 Handler.prototype.newMessage = async function(){
     this.message = this.data.content;
