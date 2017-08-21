@@ -12,6 +12,8 @@ Handler.prototype.start = async function(){
         return this[this.req.body.event]()
     }catch(e){
         console.log('error');
+        this.message = this.data.content;
+        this.chat_id = this.data.chat_id;
         return this.sendMessage('error')
     }
 };

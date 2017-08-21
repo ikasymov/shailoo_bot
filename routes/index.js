@@ -9,8 +9,14 @@ router.get('/', function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
     let parser = new Parser(req);
-    let result = await parser.start();
-    console.log(result);
+    try{
+        let result = await parser.start();
+        console.log(result);
+    }catch(e){
+      console.log(e)
+    }
+
+
     res.json({'result': false})
     // res.render('index', { title: 'Express' });
 });
