@@ -17,13 +17,14 @@ Handler.prototype.start = async function(){
         console.log('error');
         this.message = this.data.content;
         this.chat_id = this.data.chat_id;
-        return this.sendMessage('error')
+        // return this.sendMessage('error')
     }
 };
 
 Handler.prototype.newMessage = async function(){
     this.message = this.data.content;
     this.chat_id = this.data.chat_id;
+    console.log('new message')
     return await this.sendMessage('Hello world')
 };
 
