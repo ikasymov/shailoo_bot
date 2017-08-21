@@ -12,7 +12,7 @@ Handler.prototype.start = async function(){
         'message/new': 'newMessage'
     }
     try{
-        return this[data['this.req.body.event']]()
+        return this[data[this.req.body.event]]()
     }catch(e){
         console.log('error');
         this.message = this.data.content;
