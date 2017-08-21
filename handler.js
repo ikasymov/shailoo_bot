@@ -1,5 +1,5 @@
 let request = require('request');
-let apiUrl = 'https://namba1.co/api/';
+let apiUrl = 'https://namba1.co/api';
 let token = process.env.token;
 
 function Handler(req){
