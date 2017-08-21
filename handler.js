@@ -40,6 +40,7 @@ Handler.prototype.sendMessage = async function(message){
             if(error){
                 reject(error)
             }
+            console.log(body)
             resolve(body)
         })
     })
