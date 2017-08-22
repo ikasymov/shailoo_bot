@@ -64,6 +64,7 @@ Handler.prototype.newMessage = async function(){
 };
 
 Handler.prototype.newFollow = async function(){
+    console.log('new follow')
     let data = {
         url: apiUrl + '/chats/create',
         method: 'POST',
