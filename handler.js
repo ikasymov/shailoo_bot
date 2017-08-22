@@ -1,5 +1,5 @@
 let request = require('request');
-let apiUrl = 'https://namba1.co/api';
+let apiUrl = 'https://api.namba1.co/';
 let token = process.env.token;
 let db = require('./models');
 let Search = require('./check');
@@ -40,6 +40,7 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
     return new Promise((reject, resolve)=>{
         request(data, (error, req, body)=>{
             if(error){
+                console.log('error')
                 console.log(error)
                 reject(error)
             }
