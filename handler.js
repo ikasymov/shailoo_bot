@@ -30,11 +30,13 @@ Handler.prototype.newMessage = async function(){
         },
         defaults: {
             key: this.data.sender_id,
-            value: 'wait_result'
+            value: 'test'
         }
     });
+    console.log(value[0].value)
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
         await this.sendMessage(word);
+        await value[0].update({value: 'wait_result'})
     }else if(value[0].value === 'wait_result'){
         let userInformation = this.message.split(',');
         let data = {
