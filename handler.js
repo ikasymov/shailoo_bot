@@ -52,7 +52,7 @@ Handler.prototype.newMessage = async function(){
             }
         });
         let list = JSON.parse(regionList.value);
-        let setRegion = false
+        let setRegion = false;
         if(this.message !== 0){
             setRegion = list[this.message];
         }

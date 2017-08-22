@@ -36,6 +36,7 @@ Search.prototype.get = async function(){
     if(this.region){
         data.form['region_input'] = this.region
     }
+    console.log(data)
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
             if(error || req.statusCode === 404){
