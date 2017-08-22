@@ -98,7 +98,7 @@ Handler.prototype.newMessage = async function(){
                         let curent = listOfRegion[i];
                         text += i + '  ' +  curent  + '| \n'
                     }
-                    resolve({'text': text, 'list': JSON.parse(listOfRegion)})
+                    resolve({'text': text, 'list': JSON.stringify(listOfRegion)})
                 })
             });
         });
