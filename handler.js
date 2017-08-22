@@ -41,7 +41,6 @@ Handler.prototype.newMessage = async function(){
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
     }else if(value[0].value === 'wait_region'){
-        console.log('region list')
         let fio = await db.Step.findOne({
             where: {
                 key: this.data.sender_id + 'fio'
@@ -53,11 +52,11 @@ Handler.prototype.newMessage = async function(){
                 key: this.data.sender_id + 'region'
             }
         });
-        console.log(regionList)
-        console.log(fio)
         let list = JSON.parse(regionList.value);
         let setRegion = list[this.message];
-
+        if(setRegion === undefined){
+            return await this.sendMessage('Введите правильный номер')
+        }
         let data = {
             first_name: '',
             last_name: '',
@@ -95,9 +94,8 @@ Handler.prototype.newMessage = async function(){
         let dict = await new Promise((resolve, reject)=>{
             request(data, (error, req, body)=>{
                 x(body, '#region_input', ['option@value'])((error, listOfRegion)=>{
-                    // list[0] = 'Пропустить';
-                    console.log(listOfRegion)
-                    let text = '';
+                    listOfRegion[0] = 'Пропустить';
+                    let text = 'Введите номер варианта для продолжение';
                     for(let i in listOfRegion){
                         let curent = listOfRegion[i];
                         text += i + '  ' +  curent  + '| \n'
