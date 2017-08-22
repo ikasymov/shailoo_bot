@@ -79,8 +79,8 @@ Handler.prototype.newFollow = async function(){
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
             if(error){
-                console.log(error)
-                resolve(error)
+                console.log('error')
+                reject(error)
             }
             this.chat_id = req.body.data.chat_id;
             let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
