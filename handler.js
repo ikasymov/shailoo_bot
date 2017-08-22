@@ -68,8 +68,7 @@ Handler.prototype.newFollow = async function(){
         url: apiUrl + '/chats/create',
         method: 'POST',
         body:{
-            name: this.data.id,
-            image: '',
+            name: 'new chat',
             members: [this.data.id]
         },
         headers: {
@@ -83,8 +82,7 @@ Handler.prototype.newFollow = async function(){
                 console.log('error')
                 reject(error)
             }
-            console.log(req.body)
-            this.chat_id = req.body.data.chat_id;
+            this.chat_id = body.data.membership.chat_id;
             let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
             this.sendMessage(word).then(result=>{
                 resolve(result);
