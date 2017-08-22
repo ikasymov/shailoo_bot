@@ -52,9 +52,9 @@ Handler.prototype.newMessage = async function(){
             }
         });
         let list = JSON.parse(regionList.value);
-        let setRegion = list[this.message];
-        if(setRegion === 0){
-
+        let setRegion = false
+        if(this.message !== 0){
+            setRegion = list[this.message];
         }
         if(setRegion === undefined){
             return await this.sendMessage('Введите правильный номер')
