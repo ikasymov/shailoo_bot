@@ -26,10 +26,10 @@ Handler.prototype.newMessage = async function(){
     let word = 'Введите Имя Фамилию и Отчество через запятую. Пример: Баланча, Баланчаев, Баланчиевич'
     let value = await db.Step.findOrCreate({
         where:{
-            key: data.sender_id
+            key: this.data.sender_id
         },
         defaults: {
-            key: data.sender_id,
+            key: this.data.sender_id,
             value: 'wait_result'
         }
     });
