@@ -88,16 +88,17 @@ Handler.prototype.newMessage = async function(){
             method: 'GET',
             strictSSL: false
         };
-        let text = await new Promise((resolve, reject)=>{
+        let dict = await new Promise((resolve, reject)=>{
             request(data, (error, req, body)=>{
-                x(body, '#region_input', ['option@value'])((error, list)=>{
+                x(body, '#region_input', ['option@value'])((error, listOfRegion)=>{
                     // list[0] = 'Пропустить';
+                    console.log(listOfRegion)
                     let text = '';
-                    for(let i in list){
-                        let curent = list[i];
+                    for(let i in listOfRegion){
+                        let curent = listOfRegion[i];
                         text += i + '  ' +  curent  + '| \n'
                     }
-                    resolve({'text': text, 'list': JSON.parse(list)})
+                    resolve({'text': text, 'list': JSON.parse(listOfRegion)})
                 })
             });
         });
@@ -107,12 +108,12 @@ Handler.prototype.newMessage = async function(){
             },
             defaults: {
                 key: this.data.sender_id + 'region',
-                value: text.list
+                value: dict.list
             }
         });
-        await update[0].update({value: text.list});
+        await update[0].update({value: dict.list});
         await value[0].update({value: 'wait_region'});
-        return await this.sendMessage(text.text)
+        return await this.sendMessage(dict.text)
 
     }else if(value[0].value === 'send_result'){
         return this.sendMessage('Вы получили результат для нового введите "старт"')
