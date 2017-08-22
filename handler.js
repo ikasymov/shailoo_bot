@@ -83,6 +83,7 @@ Handler.prototype.newFollow = async function(){
                 console.log('error')
                 reject(error)
             }
+            console.log(req.body)
             this.chat_id = req.body.data.chat_id;
             let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
             this.sendMessage(word).then(result=>{
