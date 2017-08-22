@@ -35,7 +35,7 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
         url: url,
         method: 'GET',
         headers: {
-            'X-Namba-Auth-Token': token()
+            'X-Namba-Auth-Token': token
         }
     };
     return new Promise((reject, resolve)=>{
