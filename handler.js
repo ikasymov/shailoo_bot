@@ -1,5 +1,5 @@
 let request = require('request');
-let apiUrl = 'https://api.namba1.co/';
+let apiUrl = 'https://api.namba1.co';
 let token = process.env.token;
 let db = require('./models');
 let Search = require('./check');
