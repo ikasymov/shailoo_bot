@@ -3,6 +3,8 @@ let apiUrl = 'https://namba1.co/api';
 let token = process.env.token;
 let db = require('./models');
 let Search = require('./check');
+let Xray = require('x-ray');
+let x = Xray();
 
 function Handler(req){
     this.data = req.body.data;
@@ -34,15 +36,29 @@ Handler.prototype.newMessage = async function(){
             value: 'test'
         }
     });
-    if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
+    if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
-    }else if(value[0].value === 'wait_result'){
-        let userInformation = this.message.split(' ');
+    }else if(value[0].value === 'wait_region'){
+        let fio = await db.Step.findOne({
+            where: {
+                key: this.data.sender_id + 'fio'
+            }
+        });
+        let userInformation = fio.split(' ');
+        let regionList = await db.Step.findOne({
+            where: {
+                key: this.data.sender_id + 'region'
+            }
+        });
+        let list = JSON.parse(regionList);
+        let setRegion = list[this.message];
+
         let data = {
             first_name: '',
             last_name: '',
-            patronymic: ''
+            patronymic: '',
+            region: setRegion
         };
         data['first_name'] = userInformation[1] || '';
         data['last_name'] = userInformation[0] || '';
@@ -55,6 +71,49 @@ Handler.prototype.newMessage = async function(){
         }else{
             return this.sendMessage('Избиратель не найден')
         }
+
+    }else if(value[0].value === 'wait_result'){
+        db.Step.findOrCreate({
+            where:{
+                key: this.data.sender_id + 'fio'
+            },
+            defaults: {
+                key: this.data.sender_id + 'fio',
+                value: this.message
+            }
+        });
+        let url  = 'https://shailoo.srs.kg/view/public/tik_list_public.xhtml';
+        let data = {
+            url: url,
+            method: 'GET',
+            strictSSL: false
+        };
+        let text = await new Promise((resolve, reject)=>{
+            request(data, (error, req, body)=>{
+                x(body, '#region_input', ['option@value'])((error, list)=>{
+                    list[0] = 'Пропустить';
+                    let text = '';
+                    for(let i in list){
+                        let curent = list[i];
+                        text += i + '  ' +  curent  + '| \n'
+                    }
+                    resolve({'text': text, 'list': JSON.parse(list)})
+                })
+            });
+        });
+        let update = await db.Step.findOrCreate({
+            where:{
+                key: this.data.sender_id + 'region'
+            },
+            defaults: {
+                key: this.data.sender_id + 'region',
+                value: text.list
+            }
+        });
+        await update[0].update({value: text.list});
+        await value[0].update({value: 'wait_region'});
+        return await this.sendMessage(text.text)
+
     }else if(value[0].value === 'send_result'){
         return this.sendMessage('Вы получили результат для нового введите "старт"')
     }else{

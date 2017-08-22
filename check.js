@@ -7,7 +7,8 @@ let cookieJar = request.jar();
 function Search(data){
     this.first_name = data.first_name;
     this.last_name = data.last_name;
-    this.patronymic = data.patronymic
+    this.patronymic = data.patronymic;
+    this.region = data.region
 }
 
 Search.prototype._getToken = async function(){
@@ -32,6 +33,9 @@ Search.prototype.get = async function(){
     let token = await this._getToken();
     let data = {url: url, method: 'POST', jar: cookieJar, form: {'Patronymic-input': this.patronymic, 'lastname-input': this.last_name, 'FirstName-input': this.first_name,
             'searchButton': '', 'javax.faces.ViewState': token, 'form': 'form'}, strictSSL: false};
+    if(this.region){
+        data.form['region_input'] = this.region
+    }
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
             if(error || req.statusCode === 404){
