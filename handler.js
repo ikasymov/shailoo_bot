@@ -11,7 +11,8 @@ function Handler(req){
 
 Handler.prototype.start = async function(){
     let data = {
-        'message/new': 'newMessage'
+        'message/new': 'newMessage',
+        'user/follow': 'newFollow'
     };
     try{
         return this[data[this.req.body.event]]()
@@ -60,6 +61,32 @@ Handler.prototype.newMessage = async function(){
     }else{
         return this.sendMessage('Введите старт для начало')
     }
+};
+
+Handler.prototype.newFollow = async function(){
+    let data = {
+        url: apiUrl + '/chats/create',
+        method: 'POST',
+        body:{
+            name: this.data.id,
+            image: '',
+            members: [this.data.id]
+        },
+        headers: {
+            'X-Namba-Auth-Token': token
+        }
+    };
+    let id = await new Promise((resolve, reject)=>{
+        request(data, (error, req, body)=>{
+            if(error){
+                resolve(error)
+            }
+           resolve(req.body.data.chat_id);
+        })
+    });
+    this.chat_id = id;
+    let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
+    return await this.sendMessage(word)
 };
 
 Handler.prototype.sendMessage = async function(message){
