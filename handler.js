@@ -28,6 +28,7 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
         true: 'typing',
         false: 'stoptyping'
     };
+    console.log(setStatus[status])
     let data = {
         url: apiUrl + '/chats/' + chatId + '/' + setStatus[status],
         method: 'GET',
