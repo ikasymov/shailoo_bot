@@ -37,6 +37,7 @@ Search.prototype.get = async function(){
             if(error || req.statusCode === 404){
                 reject(error || new Error('page not found'))
             }else{
+                // console.log(body)
                 x(body, '#table_data', ['tr td .col'])((error, list)=>{
                     let count = 1;
                     let check = 1;

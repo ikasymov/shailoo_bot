@@ -46,13 +46,15 @@ Handler.prototype.newMessage = async function(){
         };
         data['first_name'] = userInformation[0] || '';
         data['last_name'] = userInformation[1] || '';
-        data['patronymic'] = userInformation[0] || '';
+        data['patronymic'] = userInformation[2] || '';
         let search = new Search(data);
-        console.log(data)
         let result = await search.get();
-        console.log(result)
         value[0].update({value: 'send_result'});
-        return this.sendMessage(result)
+        if(result){
+            return await this.sendMessage(result)
+        }else{
+            return this.sendMessage('Избиратель не найден')
+        }
     }else if(value[0].value === 'send_result'){
         return this.sendMessage('Вы получили результат для нового введите "старт"')
     }else{
