@@ -23,7 +23,7 @@ Handler.prototype.start = async function(){
 Handler.prototype.newMessage = async function(){
     this.message = this.data.content;
     this.chat_id = this.data.chat_id;
-    let word = 'Введите Имя Фамилию и Отчество через запятую. Пример: Баланча, Баланчаев, Баланчиевич'
+    let word = 'Введите ФИО Пример: Касымов Ильгиз Майрамбекович';
     let value = await db.Step.findOrCreate({
         where:{
             key: this.data.sender_id
@@ -38,14 +38,14 @@ Handler.prototype.newMessage = async function(){
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
     }else if(value[0].value === 'wait_result'){
-        let userInformation = this.message.split(',');
+        let userInformation = this.message.split(' ');
         let data = {
             first_name: '',
             last_name: '',
             patronymic: ''
         };
-        data['first_name'] = userInformation[0] || '';
-        data['last_name'] = userInformation[1] || '';
+        data['first_name'] = userInformation[1] || '';
+        data['last_name'] = userInformation[0] || '';
         data['patronymic'] = userInformation[2] || '';
         let search = new Search(data);
         let result = await search.get();
