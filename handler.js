@@ -36,6 +36,7 @@ Handler.prototype.newMessage = async function(){
             value: 'test'
         }
     });
+    console.log(value[0].value)
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
