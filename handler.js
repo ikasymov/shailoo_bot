@@ -77,7 +77,7 @@ Handler.prototype.newMessage = async function(){
         }
 
     }else if(value[0].value === 'wait_result'){
-        db.Step.findOrCreate({
+        await db.Step.findOrCreate({
             where:{
                 key: this.data.sender_id + 'fio'
             },
