@@ -78,7 +78,7 @@ Handler.prototype.newMessage = async function(){
         }
 
     }else if(value[0].value === 'wait_result'){
-        await db.Step.findOrCreate({
+        let obj = await db.Step.findOrCreate({
             where:{
                 key: this.data.sender_id + 'fio'
             },
@@ -87,6 +87,7 @@ Handler.prototype.newMessage = async function(){
                 value: this.message
             }
         });
+        await obj[0].update({value: this.message});
         let url  = 'https://shailoo.srs.kg/view/public/tik_list_public.xhtml';
         let data = {
             url: url,
