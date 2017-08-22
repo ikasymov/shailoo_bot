@@ -91,8 +91,7 @@ Handler.prototype.newMessage = async function(){
         let text = await new Promise((resolve, reject)=>{
             request(data, (error, req, body)=>{
                 x(body, '#region_input', ['option@value'])((error, list)=>{
-                    console.log(list)
-                    list[0] = 'Пропустить';
+                    // list[0] = 'Пропустить';
                     let text = '';
                     for(let i in list){
                         let curent = list[i];
