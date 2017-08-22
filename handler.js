@@ -1,5 +1,5 @@
 let request = require('request');
-let apiUrl = 'https://namba1.co/api';
+let apiUrl = 'https://api.namba1.co';
 let token = process.env.token;
 let db = require('./models');
 let Search = require('./check');
@@ -23,6 +23,8 @@ Handler.prototype.start = async function(){
     }
 };
 
+
+
 Handler.prototype.newMessage = async function(){
     this.message = this.data.content;
     this.chat_id = this.data.chat_id;
@@ -37,8 +39,8 @@ Handler.prototype.newMessage = async function(){
         }
     });
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
-        await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
+        return await this.sendMessage(word);
     }else if(value[0].value === 'wait_region'){
         let fio = await db.Step.findOne({
             where: {
