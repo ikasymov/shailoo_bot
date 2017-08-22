@@ -40,6 +40,7 @@ Handler.prototype.newMessage = async function(){
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
     }else if(value[0].value === 'wait_region'){
+        console.log('region list')
         let fio = await db.Step.findOne({
             where: {
                 key: this.data.sender_id + 'fio'
@@ -51,6 +52,8 @@ Handler.prototype.newMessage = async function(){
                 key: this.data.sender_id + 'region'
             }
         });
+        console.log(regionList)
+        console.log(fio)
         let list = JSON.parse(regionList);
         let setRegion = list[this.message];
 
