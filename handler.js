@@ -47,7 +47,7 @@ Handler.prototype.newMessage = async function(){
                 key: this.data.sender_id + 'fio'
             }
         });
-        let userInformation = fio.split(' ');
+        let userInformation = fio.value.split(' ');
         let regionList = await db.Step.findOne({
             where: {
                 key: this.data.sender_id + 'region'
@@ -55,7 +55,7 @@ Handler.prototype.newMessage = async function(){
         });
         console.log(regionList)
         console.log(fio)
-        let list = JSON.parse(regionList);
+        let list = JSON.parse(regionList.value);
         let setRegion = list[this.message];
 
         let data = {
