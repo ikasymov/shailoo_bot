@@ -36,7 +36,6 @@ Handler.prototype.newMessage = async function(){
             value: 'test'
         }
     });
-    console.log(value[0].value)
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
@@ -54,6 +53,9 @@ Handler.prototype.newMessage = async function(){
         });
         let list = JSON.parse(regionList.value);
         let setRegion = list[this.message];
+        if(setRegion === 0){
+
+        }
         if(setRegion === undefined){
             return await this.sendMessage('Введите правильный номер')
         }
@@ -95,10 +97,10 @@ Handler.prototype.newMessage = async function(){
             request(data, (error, req, body)=>{
                 x(body, '#region_input', ['option@value'])((error, listOfRegion)=>{
                     listOfRegion[0] = 'Пропустить';
-                    let text = 'Введите номер варианта для продолжение';
+                    let text = 'Введите номер варианта для продолжение \n';
                     for(let i in listOfRegion){
                         let curent = listOfRegion[i];
-                        text += i + '  ' +  curent  + '| \n'
+                        text += i + '  ' +  curent  + '\n'
                     }
                     resolve({'text': text, 'list': JSON.stringify(listOfRegion)})
                 })
