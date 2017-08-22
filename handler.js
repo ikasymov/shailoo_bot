@@ -29,8 +29,10 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
         false: 'stoptyping'
     };
     console.log(setStatus[status])
+    let url = apiUrl + '/chats/' + chatId + '/' + setStatus[status]
+    console.log(url)
     let data = {
-        url: apiUrl + '/chats/' + chatId + '/' + setStatus[status],
+        url: url,
         method: 'GET',
         headers: {
             'X-Namba-Auth-Token': token()
@@ -61,8 +63,8 @@ Handler.prototype.newMessage = async function(){
         }
     });
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
-        await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
+        return await this.sendMessage(word);
     }else if(value[0].value === 'wait_region'){
         await this.setTyppingStatus(this.chat_id, true);
         let fio = await db.Step.findOne({
