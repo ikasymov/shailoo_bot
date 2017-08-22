@@ -13,7 +13,7 @@ router.post('/', async function(req, res, next) {
         let result = await parser.start();
         console.log(result);
     }catch(e){
-      console.log(e)
+      // console.log(e)
     }
 
 

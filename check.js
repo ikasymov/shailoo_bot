@@ -56,11 +56,4 @@ Search.prototype.get = async function(){
     });
 };
 
-
-let datafor = {
-    first_name: 'Ильгиз',
-    last_name: 'Касымов',
-    patronymic: ''
-
-};
 module.exports = Search;

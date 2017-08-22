@@ -48,13 +48,15 @@ Handler.prototype.newMessage = async function(){
         data['last_name'] = userInformation[1] || '';
         data['patronymic'] = userInformation[0] || '';
         let search = new Search(data);
+        console.log(data)
         let result = await search.get();
+        console.log(result)
         value[0].update({value: 'send_result'});
         return this.sendMessage(result)
     }else if(value[0].value === 'send_result'){
-        return this.sendMessage(word)
+        return this.sendMessage('Вы получили результат для нового введите "старт"')
     }else{
-        return this.sendMessage(word)
+        return this.sendMessage('Введите старт для начало')
     }
 };
 
