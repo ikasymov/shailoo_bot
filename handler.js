@@ -34,7 +34,6 @@ Handler.prototype.newMessage = async function(){
             value: 'test'
         }
     });
-    console.log(value[0].value)
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
         await this.sendMessage(word);
         await value[0].update({value: 'wait_result'})
@@ -77,17 +76,21 @@ Handler.prototype.newFollow = async function(){
             'X-Namba-Auth-Token': token
         }
     };
-    let id = await new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
             if(error){
+                console.log(error)
                 resolve(error)
             }
-           resolve(req.body.data.chat_id);
+            this.chat_id = req.body.data.chat_id;
+            let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
+            this.sendMessage(word).then(result=>{
+                resolve(result);
+
+            })
         })
     });
-    this.chat_id = id;
-    let word = 'Добро пожаловать с помощю этого бота вы можете узнать есть ли вы в списке избирателей, для начало напишите "старт"'
-    return await this.sendMessage(word)
+
 };
 
 Handler.prototype.sendMessage = async function(message){
