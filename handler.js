@@ -74,7 +74,8 @@ Handler.prototype.newFollow = async function(){
         },
         headers: {
             'X-Namba-Auth-Token': token
-        }
+        },
+        json: true
     };
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
