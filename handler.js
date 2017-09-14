@@ -36,6 +36,7 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
         };
         return new Promise((reject, resolve)=>{
                 request(data, (error, req, body)=>{
+                        console.log(error || body);
                         if(error){
                                 reject(error)
                             }
