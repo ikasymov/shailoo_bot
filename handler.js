@@ -59,10 +59,15 @@ Handler.prototype.newMessage = async function(){
         }
     });
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
-        await this.setTyppingStatus(this.chat_id, true);
-        await value[0].update({value: 'wait_result'});
-        await this.setTyppingStatus(this.chat_id, false);
-        return await this.sendMessage(word);
+        try{
+          await this.setTyppingStatus(this.chat_id, true);
+          await value[0].update({value: 'wait_result'});
+          await this.setTyppingStatus(this.chat_id, false);
+          return await this.sendMessage(word);
+        }catch(e){
+            throw e
+        }
+        
     }else if(value[0].value === 'wait_region'){
         await this.setTyppingStatus(this.chat_id, true);
         let fio = await db.Step.findOne({
