@@ -22,7 +22,27 @@ Handler.prototype.start = async function(){
         throw new Error('not search this method')
     }
 };
-
+Handler.prototype.setTyppingStatus = async function(chatId, status){
+     let setStatus = {
+                true: 'typing',
+                false: 'stoptyping'
+        };
+        let data = {
+                url: apiUrl + '/chats/' + chatId + '/' + setStatus[status],
+                method: 'GET',
+                headers: {
+                    'X-Namba-Auth-Token': token
+                }
+        };
+        return new Promise((reject, resolve)=>{
+                request(data, (error, req, body)=>{
+                        if(error){
+                                reject(error)
+                            }
+                        resolve(true)
+                    })
+            });
+};
 
 
 Handler.prototype.newMessage = async function(){
@@ -39,9 +59,12 @@ Handler.prototype.newMessage = async function(){
         }
     });
     if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт') {
-        await value[0].update({value: 'wait_result'})
+        await this.setTyppingStatus(this.chat_id, true);
+        await value[0].update({value: 'wait_result'});
+        await this.setTyppingStatus(this.chat_id, false);
         return await this.sendMessage(word);
     }else if(value[0].value === 'wait_region'){
+        await this.setTyppingStatus(this.chat_id, true);
         let fio = await db.Step.findOne({
             where: {
                 key: this.data.sender_id + 'fio'
@@ -59,6 +82,7 @@ Handler.prototype.newMessage = async function(){
             setRegion = list[this.message];
         }
         if(setRegion === undefined){
+            await this.setTyppingStatus(this.chat_id, false);
             return await this.sendMessage('Введите правильный номер')
         }
         let data = {
@@ -74,12 +98,15 @@ Handler.prototype.newMessage = async function(){
         let result = await search.get();
         value[0].update({value: 'send_result'});
         if(result){
+            await this.setTyppingStatus(this.chat_id, false);
             return await this.sendMessage(result)
         }else{
+            await this.setTyppingStatus(this.chat_id, false);
             return this.sendMessage('Избиратель не найден')
         }
 
     }else if(value[0].value === 'wait_result'){
+        await this.setTyppingStatus(this.chat_id, true);
         let obj = await db.Step.findOrCreate({
             where:{
                 key: this.data.sender_id + 'fio'
@@ -120,6 +147,7 @@ Handler.prototype.newMessage = async function(){
         });
         await update[0].update({value: dict.list});
         await value[0].update({value: 'wait_region'});
+        await this.setTyppingStatus(this.chat_id, false);
         return await this.sendMessage(dict.text)
 
     }else if(value[0].value === 'send_result'){
@@ -185,3 +213,4 @@ Handler.prototype.sendMessage = async function(message){
 };
 
 module.exports = Handler;
+
