@@ -63,6 +63,7 @@ Handler.prototype.newMessage = async function(){
           await this.setTyppingStatus(this.chat_id, true);
           await value[0].update({value: 'wait_result'});
           await this.setTyppingStatus(this.chat_id, false);
+          console.log('hi')
           return await this.sendMessage(word);
         }catch(e){
             throw e
