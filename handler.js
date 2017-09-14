@@ -36,7 +36,6 @@ Handler.prototype.setTyppingStatus = async function(chatId, status){
         };
         return new Promise((resolve, reject)=>{
                 request(data, (error, req, body)=>{
-                        console.log(error || body);
                         if(error){
                                 reject(error)
                             }
@@ -63,9 +62,7 @@ Handler.prototype.newMessage = async function(){
         try{
           await this.setTyppingStatus(this.chat_id, true);
           await value[0].update({value: 'wait_result'});
-          console.log('hello')
           await this.setTyppingStatus(this.chat_id, false);
-          console.log('hi')
           return await this.sendMessage(word);
         }catch(e){
             throw e
