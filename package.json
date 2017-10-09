@@ -12,6 +12,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "hbs": "~4.0.1",
+    "lets-get-meta": "^2.1.1",
     "morgan": "~1.8.1",
     "request": "^2.81.0",
     "sequelize": "^4.6.0",

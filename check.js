@@ -3,6 +3,7 @@ var Xray = require('x-ray');
 var x = Xray();
 let url = 'https://shailoo.srs.kg/view/public/tik_list_public.xhtml';
 let cookieJar = request.jar();
+var getMeta = require("lets-get-meta");
 
 function Search(data){
     this.first_name = data.first_name;
@@ -24,7 +25,7 @@ Search.prototype._getToken = async function(){
                 reject(error)
             }
             x(body, '#form', ['input@value'])((error, value)=>{
-                resolve(value.slice(-1)[0])
+              resolve({csrf: getMeta(body)['csrf-token-value'], token: value.slice(-1)[0]})
             })
         })
     })
@@ -32,7 +33,7 @@ Search.prototype._getToken = async function(){
 Search.prototype.get = async function(){
     let token = await this._getToken();
     let data = {url: url, method: 'POST', jar: cookieJar, form: {'Patronymic-input': this.patronymic, 'lastname-input': this.last_name, 'FirstName-input': this.first_name,
-            'searchButton': '', 'javax.faces.ViewState': token, 'form': 'form'}, strictSSL: false};
+            'searchButton': '', 'javax.faces.ViewState': token.token, 'form': 'form', csrftoken: token.csrf}, strictSSL: false};
     if(this.region){
         data.form['region_input'] = this.region
     }
